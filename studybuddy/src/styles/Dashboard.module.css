@@ -1,6 +1,6 @@
 .dashboardContainer {
     padding: 1.5rem;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-poppins), sans-serif;
     max-width: 1300px;
     margin: 0 auto;
     color: #333;
@@ -11,18 +11,20 @@
 /* Header & Navigation */
 .header {
     display: flex;
-    justify-content: space-between;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
+    justify-content: space-between; /* pushes items to far left & right */
+    align-items: center !important;
+    max-width: 1200px;  /* or 100% if you want full width */
+    margin: 0 auto !important;     /* centers the whole header horizontally */
+    padding: 1rem 2rem; /* spacing inside */
     border-bottom: 1px solid #eee;
-
 }
 
 .nav {
     display: flex;
     flex: 1;
+    justify-content: center; /* THIS centers the <ul> horizontally */
 }
+
 
 .nav ul {
     display: flex;
@@ -45,25 +47,15 @@
     border-bottom: 2px solid #000;
 }
 
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: bold;
-}
-
-.gear {
-    font-size: 1.2rem;
-}
-
 .navLink {
     text-decoration: none;
-    color: black; /* or any color you want */
+    color: inherit; /* or any color you want */
 }
 
 .navLink:hover {
-    color: #0070f3; /* optional hover effect */
+    color: #000000; /* optional hover effect */
 }
+
 
 /* Stats Container */
 .statsContainer {
@@ -111,6 +103,7 @@
     margin-top: 0;
     margin-bottom: 0.25rem;
     font-size: 1.5rem;
+    font-family: Poppins;
 }
 
 .studyTogether p {
@@ -205,13 +198,14 @@
 .buddyCourses {
     font-size: 0.9rem;
     margin: 0.25rem 0;
-    color: rgba(255, 255, 255, 0.85);
+    /*color: rgba(255, 255, 255, 0.85);*/
+    color: white !important;
 }
 
 .buddyAvailability {
     font-size: 0.8rem;
     margin: 0.25rem 0;
-    color: rgba(255, 255, 255, 0.7);
+    color: white !important;
 }
 
 .connectBtn {
@@ -235,8 +229,9 @@
 
 .messages h3 {
     margin-top: 0;
+    text-align: center;
     margin-bottom: 1rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 }
 
 .messageItem {

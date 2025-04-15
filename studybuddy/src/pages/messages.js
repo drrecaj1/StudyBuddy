@@ -58,17 +58,13 @@ export default function MessagesPage() {
                         <ul>
                             <li>
                                 <Link href="/dashboard" className={styles.navLink}>
-                                    Dashboard
+                                    Home
                                 </Link>
                             </li>
                             <li>Study Partners</li>
                             <li className={styles.active}>My Messages</li>
-                            <li>Calendar</li>
+                            <li>My Profile</li>
                         </ul>
-                        {/*<div className={styles.profile}>*/}
-                        {/*    <span>My Profile</span>*/}
-                        {/*    <span className={styles.gear}>⚙️</span>*/}
-                        {/*</div>*/}
                     </nav>
                 </header>
 

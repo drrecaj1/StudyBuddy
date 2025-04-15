@@ -22,13 +22,13 @@ export default function Dashboard() {
                                 My Messages
                             </Link><
                         /li>
-                        <li>Calendar</li>
+                        <li>My Profile</li>
                     </ul>
                 </nav>
-                <div className={styles.profile}>
-                    <span>My Profile</span>
-                    <span className={styles.gear}>⚙️</span>
-                </div>
+                {/*<div className={styles.profile}>*/}
+                {/*    <span>My Profile</span>*/}
+                {/*    <span className={styles.gear}>⚙️</span>*/}
+                {/*</div>*/}
             </header>
 
             <main className={styles.mainContent}>

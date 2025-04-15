@@ -1,7 +1,7 @@
 /* src/styles/Messages.module.css */
 .messagesContainer {
     padding: 2rem;
-    font-family: sans-serif;
+    font-family: var(--font-poppins), sans-serif;
     height: 90vh;
     display: flex;
     flex-direction: column;
@@ -43,24 +43,15 @@
     border-bottom: 2px solid #000;
 }
 
-.profile {
-    /*display: flex;*/
-    /*gap: 0.5rem;*/
-    font-weight: bold;
-    margin-left: auto;
-}
 
-.gear {
-    font-size: 1.2rem;
-}
 
 .navLink {
     text-decoration: none;
-    color: black; /* or any color you want */
+    color: inherit; /* or any color you want */
 }
 
 .navLink:hover {
-    color: #0070f3; /* optional hover effect */
+    color: #000000; /* optional hover effect */
 }
 
 
@@ -69,16 +60,6 @@
 /*    text-decoration: underline;*/
 /*    color: #000 !important;*/
 /*}*/
-
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.gear {
-    font-size: 1.2rem;
-}
 
 .mainContent {
     flex: 1;

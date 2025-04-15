@@ -1,5 +1,4 @@
 // src/components/Messages/MessageList.js
-import { useState } from 'react';
 import styles from '@/styles/Messages.module.css';
 
 export default function MessageList({ messages, selectedChat, setSelectedChat }) {

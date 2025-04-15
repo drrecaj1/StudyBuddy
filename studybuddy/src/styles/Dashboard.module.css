@@ -1,0 +1,108 @@
+.dashboardContainer {
+    padding: 2rem;
+    font-family: sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.nav li {
+    cursor: pointer;
+}
+
+.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statsContainer {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.statBox {
+    flex: 1;
+    background: #ddd;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 6px;
+}
+
+.studySection {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.buddyCards {
+    display: flex;
+    gap: 1rem;
+}
+
+.buddyCard {
+    background: #444;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    background: gray;
+    border-radius: 50%;
+    margin: auto;
+}
+
+.messages {
+    background: #f0f0f0;
+    padding: 1rem;
+    flex: 1;
+}
+
+.messageItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.messageText {
+    flex: 1;
+}
+
+.timestamp {
+    font-size: 0.8rem;
+    color: gray;
+}
+
+.bottomSection {
+    display: flex;
+    gap: 2rem;
+}
+
+.courses, .sessions {
+    flex: 1;
+    background: #f0f0f0;
+    padding: 1rem;
+}
+
+.noSessions {
+    margin: 1rem 0;
+}

@@ -1,7 +1,7 @@
 .dashboardContainer {
     padding: 1.5rem;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     color: #333;
     min-height: 100vh;
@@ -54,6 +54,15 @@
 
 .gear {
     font-size: 1.2rem;
+}
+
+.navLink {
+    text-decoration: none;
+    color: black; /* or any color you want */
+}
+
+.navLink:hover {
+    color: #0070f3; /* optional hover effect */
 }
 
 /* Stats Container */

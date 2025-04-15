@@ -3,6 +3,7 @@ import { useState } from 'react';
 import MessageList from '@/components/Messages/MessageList';
 import ChatWindow from '@/components/Messages/ChatWindows';
 import styles from '@/styles/Messages.module.css';
+import Link from 'next/link';
 
 export default function MessagesPage() {
     const [selectedChat, setSelectedChat] = useState(null);
@@ -55,15 +56,19 @@ export default function MessagesPage() {
                 <header className={styles.header}>
                     <nav className={styles.nav}>
                         <ul>
-                            <li>Home</li>
+                            <li>
+                                <Link href="/dashboard" className={styles.navLink}>
+                                    Dashboard
+                                </Link>
+                            </li>
                             <li>Study Partners</li>
                             <li className={styles.active}>My Messages</li>
                             <li>Calendar</li>
                         </ul>
-                        <div className={styles.profile}>
-                            <span>My Profile</span>
-                            <span className={styles.gear}>⚙️</span>
-                        </div>
+                        {/*<div className={styles.profile}>*/}
+                        {/*    <span>My Profile</span>*/}
+                        {/*    <span className={styles.gear}>⚙️</span>*/}
+                        {/*</div>*/}
                     </nav>
                 </header>
 

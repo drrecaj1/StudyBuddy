@@ -7,10 +7,22 @@ html, body {
   height: 100%;
 }
 
+body {
+  overflow: auto;
+}
+
+/* Disable scrolling only on desktop */
+@media (min-width: 1024px) {
+  body {
+    overflow: hidden;
+  }
+}
+
 
 body {
   font-family: var(--font-poppins), sans-serif;
   background: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);
+  overflow: auto;
 }
 
 /* === Global Font Headings === */

@@ -17,7 +17,11 @@ export default function Dashboard() {
                     <ul>
                         <li className={styles.active}>Home</li>
                         <li>Study Partners</li>
-                        <li><Link href="/messages">My Messages</Link></li>
+                        <li>
+                            <Link href="/messages" className={styles.navLink}>
+                                My Messages
+                            </Link><
+                        /li>
                         <li>Calendar</li>
                     </ul>
                 </nav>

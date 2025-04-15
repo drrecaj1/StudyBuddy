@@ -2,20 +2,29 @@
 .messagesContainer {
     padding: 2rem;
     font-family: sans-serif;
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
 }
 
 .header {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
+    justify-content: space-between; /* pushes items to far left & right */
+    align-items: center;
+    max-width: 1200px;  /* or 100% if you want full width */
+    margin: 0 auto;     /* centers the whole header horizontally */
+    padding: 1rem 2rem; /* spacing inside */
+    border-bottom: 1px solid #eee;
+}
+
+.nav {
+    display: flex;
+    flex: 1;
 }
 
 .nav ul {
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -23,14 +32,43 @@
 
 .nav li {
     cursor: pointer;
-    color: #666;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    color: #555;
 }
 
-.active {
+.nav li.active {
     font-weight: bold;
-    text-decoration: underline;
-    color: #000 !important;
+    color: #000;
+    border-bottom: 2px solid #000;
 }
+
+.profile {
+    /*display: flex;*/
+    /*gap: 0.5rem;*/
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.gear {
+    font-size: 1.2rem;
+}
+
+.navLink {
+    text-decoration: none;
+    color: black; /* or any color you want */
+}
+
+.navLink:hover {
+    color: #0070f3; /* optional hover effect */
+}
+
+
+/*.active {*/
+/*    font-weight: bold;*/
+/*    text-decoration: underline;*/
+/*    color: #000 !important;*/
+/*}*/
 
 .profile {
     display: flex;

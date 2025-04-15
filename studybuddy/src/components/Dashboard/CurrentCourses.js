@@ -10,15 +10,15 @@ export default function CurrentCourses() {
     return (
         <div className={styles.courses}>
             <h3>Your Current Courses</h3>
-            <ul>
+            <ul className={styles.courseList}>
                 {courses.map((course, i) => (
-                    <li key={i}>
-                        <span>{course.name}</span>
-                        <span>{course.buddies} potential buddies</span>
+                    <li key={i} className={styles.courseItem}>
+                        <span className={styles.courseTitle}>{course.name}</span>
+                        <span className={styles.buddyCount}>{course.buddies} potential buddies</span>
                     </li>
                 ))}
             </ul>
-            <button>View all</button>
+            <button className={styles.viewAllBtn}>View all</button>
         </div>
     );
 }

@@ -1,9 +1,13 @@
+
 import DashboardStats from "@/components/Dashboard/DashboardStats";
 import StudyBuddySuggestions from "@/components/Dashboard/StudyBuddySuggestions";
 import CurrentCourses from "@/components/Dashboard/CurrentCourses";
 import UpcomingSessions from "@/components/Dashboard/UpcomingSessions";
 import RecentMessages from "@/components/Dashboard/RecentMessages";
 import styles from '@/styles/Dashboard.module.css';
+import Link from 'next/link';
+
+
 
 export default function Dashboard() {
     return (
@@ -13,14 +17,14 @@ export default function Dashboard() {
                     <ul>
                         <li className={styles.active}>Home</li>
                         <li>Study Partners</li>
-                        <li>My Messages</li>
+                        <li><Link href="/messages">My Messages</Link></li>
                         <li>Calendar</li>
                     </ul>
-                    <div className={styles.profile}>
-                        <span>My Profile</span>
-                        <span className={styles.gear}>⚙️</span>
-                    </div>
                 </nav>
+                <div className={styles.profile}>
+                    <span>My Profile</span>
+                    <span className={styles.gear}>⚙️</span>
+                </div>
             </header>
 
             <main className={styles.mainContent}>

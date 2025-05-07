@@ -1,4 +1,5 @@
 import styles from '@/styles/Dashboard.module.css';
+import Link from 'next/link';
 
 export default function CurrentCourses() {
     const courses = [
@@ -18,7 +19,9 @@ export default function CurrentCourses() {
                     </li>
                 ))}
             </ul>
-            <button className={styles.viewAllBtn}>View all</button>
+            <button className={styles.viewAllBtn}>
+                <Link href="/profile" className={styles.linkInsideButton}>View All</Link>
+            </button>
         </div>
     );
 }

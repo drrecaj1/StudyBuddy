@@ -3,11 +3,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /*background-image: url('/bckgpic.jpg'); !* ✅ Path is from public/ *!*/
-  /*background-size: cover;*/
-  /*background-position: center;*/
-  /*background-repeat: no-repeat;*/
-
   font-family: var(--font-poppins), sans-serif;
 }
 

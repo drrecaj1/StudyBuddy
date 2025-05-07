@@ -4,6 +4,7 @@ import MessageList from '@/components/Messages/MessageList';
 import ChatWindow from '@/components/Messages/ChatWindows';
 import styles from '@/styles/Messages.module.css';
 import Link from 'next/link';
+import NavBar from '../components/NavBar';
 
 export default function MessagesPage() {
     const [selectedChat, setSelectedChat] = useState(null);
@@ -53,20 +54,8 @@ export default function MessagesPage() {
                 <title>My Messages – Study Buddy</title>
             </Head>
             <div className={styles.messagesContainer}>
-                <header className={styles.header}>
-                    <nav className={styles.nav}>
-                        <ul>
-                            <li>
-                                <Link href="/dashboard" className={styles.navLink}>
-                                    Home
-                                </Link>
-                            </li>
-                            <li>Study Partners</li>
-                            <li className={styles.active}>My Messages</li>
-                            <li>My Profile</li>
-                        </ul>
-                    </nav>
-                </header>
+
+                    <NavBar activeLink="My Messages" /> {/* Use shared nav here */}
 
                 <main className={styles.mainContent}>
                     <div className={styles.messagesWrapper}>

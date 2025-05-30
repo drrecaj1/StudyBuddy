@@ -7,7 +7,7 @@ export default function MyBuddies({ buddies = [] }) {
             <h2>My Buddies</h2>
             {buddies.length > 0 ? (
                 <div className={styles.buddiesList}>
-                    {/* Render buddies here when you have them */}
+
                 </div>
             ) : (
                 <div className={styles.noBuddies}>

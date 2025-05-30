@@ -1,91 +1,250 @@
-// src/components/Messages/ChatWindow.js
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styles from '@/styles/Messages.module.css';
 
 export default function ChatWindow({ selectedChat }) {
     const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState([]);
     const [showScheduleForm, setShowScheduleForm] = useState(false);
     const [scheduleDate, setScheduleDate] = useState('');
     const [scheduleTime, setScheduleTime] = useState('');
     const [sentRequest, setSentRequest] = useState(false);
+    const [sessionRequest, setSessionRequest] = useState(null);
+    const [partnerName, setPartnerName] = useState('');
+    const bottomRef = useRef(null);
 
-    // Message handling
-    const handleSendMessage = (e) => {
+    useEffect(() => {
+        // Fetch partner name when selectedChat changes
+        async function fetchPartnerName() {
+            if (!selectedChat?.id) {
+                setPartnerName('');
+                return;
+            }
+            try {
+                const res = await fetch(`/api/buddies?id=${selectedChat.id}`);
+                const data = await res.json();
+                if (data.buddy && (data.buddy.fullName || data.buddy.name)) {
+                    setPartnerName(data.buddy.fullName || data.buddy.name);
+                } else {
+                    setPartnerName('Study Buddy');
+                }
+            } catch {
+                setPartnerName('Study Buddy');
+            }
+        }
+        fetchPartnerName();
+    }, [selectedChat]);
+
+    useEffect(() => {
+        const fetchMessages = async () => {
+            if (!selectedChat?.id) return;
+            const token = localStorage.getItem('token');
+
+            try {
+                const res = await fetch(`/api/messages?partnerId=${selectedChat.id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    console.log('✅ Loaded messages:', data.messages);
+                    setMessages(data.messages);
+                } else {
+                    console.error('❌ Message fetch error:', data.message);
+                }
+            } catch (err) {
+                console.error('❌ Network error:', err);
+            }
+        };
+
+        fetchMessages();
+    }, [selectedChat]);
+
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+
+    const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (message.trim()) {
-            console.log('Sending message:', message);
-            setMessage('');
+        if (!message.trim()) return;
+
+        const token = localStorage.getItem('token');
+
+        try {
+            const res = await fetch('/api/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    recipientId: selectedChat.id,
+                    text: message
+                })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        id: data.insertedId,
+                        fromSelf: true,
+                        text: message,
+                        timestamp: new Date().toISOString()
+                    }
+                ]);
+                setMessage('');
+            } else {
+                console.error('❌ Failed to send message:', data.message);
+            }
+        } catch (err) {
+            console.error('❌ Send message network error:', err);
         }
     };
 
-    // Schedule handling
     const handleScheduleClick = () => {
         setShowScheduleForm(!showScheduleForm);
     };
 
-    const handleScheduleSubmit = (e) => {
+    const handleScheduleSubmit = async (e) => {
         e.preventDefault();
-        if (scheduleDate && scheduleTime) {
-            console.log('Scheduling session for:', scheduleDate, scheduleTime);
+        if (!scheduleDate || !scheduleTime || !selectedChat?.id) return;
+
+        const token = localStorage.getItem('token');
+
+        try {
+            const res = await fetch('/api/sessions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    recipientId: selectedChat.id,
+                    date: scheduleDate,
+                    time: scheduleTime
+                })
+            });
+
+            const data = await res.json();
+            console.log('📦 Full session creation response:', data); // ← ADD THIS
+
+            setSessionRequest({
+                _id: data.insertedId,
+                date: scheduleDate,
+                time: scheduleTime,
+                status: 'pending',
+            });
+
+            if (!res.ok) {
+                console.error('❌ Schedule failed:', data.message);
+                return;
+            }
+
+            console.log('✅ Session saved to DB');
             setShowScheduleForm(false);
             setSentRequest(true);
+
+        } catch (err) {
+            console.error('❌ Network error:', err);
         }
     };
 
+
+
+    const updateSessionStatus = async (sessionId, status) => {
+        const token = localStorage.getItem('token');
+
+        console.log('📤 Sending update request with:', { sessionId, status });
+
+        try {
+            const res = await fetch('/api/sessions/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    sessionId,
+                    newStatus: status
+                })
+            });
+
+            const text = await res.text(); // get raw response
+            console.log('🔁 Raw response:', text);
+
+            if (!res.ok) {
+                console.error(`❌ Error ${res.status} updating session:`, text);
+                return;
+            }
+
+            console.log(`✅ Session updated to ${status}`);
+            setSentRequest(false);
+
+        } catch (err) {
+            console.error('❌ Network or parsing error:', err);
+        }
+    };
+
+
     const handleAcceptSession = () => {
-        console.log('Session accepted');
-        setSentRequest(false);
+        if (sessionRequest && sessionRequest._id) {
+            console.log("✅ Accept button clicked");
+            updateSessionStatus(sessionRequest._id.toString(), 'accepted');
+        } else {
+            console.log("⚠️ sessionRequest._id missing");
+        }
     };
 
     const handleDeclineSession = () => {
-        console.log('Session declined');
-        setSentRequest(false);
+        if (sessionRequest && sessionRequest._id) {
+            console.log("❌ Decline button clicked");
+            updateSessionStatus(sessionRequest._id.toString(), 'declined');
+        } else {
+            console.log("⚠️ sessionRequest._id missing");
+        }
     };
 
-    // Format date for display
+
     const formatDate = (dateString) => {
         if (!dateString) return '';
-        // Format as DD/MM/YYYY
         const parts = dateString.split('-');
-        if (parts.length === 3) {
-            return `${parts[2]}/${parts[1]}/${parts[0]}`;
-        }
-        return dateString;
+        return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : dateString;
     };
 
     return (
         <div className={styles.chatWindow}>
+            <div className={styles.chatHeader}>
+                <h3>{partnerName}</h3>
+            </div>
             {selectedChat ? (
                 <>
-                    <div className={styles.chatHeader}>
-                        <div className={styles.chatAvatar}></div>
-                        <h3>{selectedChat.name || 'Study Buddy'}</h3>
-                    </div>
-
                     <div className={styles.chatMessages}>
-                        {/* Demo messages for visualization */}
-                        <div className={`${styles.messageReceived} ${styles.message}`}>
-                            <div className={styles.messageAvatar}></div>
-                            <div className={styles.messageContent}>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
+                        {messages.map((msg, idx) => {
+                            const isSent = msg.fromSelf;
+                            return (
+                                <div
+                                    key={idx}
+                                    className={`${isSent ? styles.messageSent : styles.messageReceived} ${styles.message}`}
+                                >
+                                    {!isSent && <div className={styles.messageAvatar}></div>}
+                                    <div className={styles.messageContent}>
+                                        <p>{msg.text}</p>
+                                        <span className={styles.timestamp}>
+                      {new Date(msg.timestamp).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                      })}
+                    </span>
+                                    </div>
+                                    {isSent && <div className={styles.messageAvatar}></div>}
+                                </div>
+                            );
+                        })}
 
-                        <div className={`${styles.messageSent} ${styles.message}`}>
-                            <div className={styles.messageContent}>
-                                <p>Lorem ipsum dolor sit amet?</p>
-                            </div>
-                            <div className={styles.messageAvatar} style={{ marginLeft: "10px", marginRight: "0" }}></div>
-                        </div>
+                        <div ref={bottomRef} />
 
-                        <div className={`${styles.messageReceived} ${styles.message}`}>
-                            <div className={styles.messageAvatar}></div>
-                            <div className={styles.messageContent}>
-                                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            </div>
-                        </div>
-
-                        {/* Schedule form - Only show when triggered by + button */}
                         {showScheduleForm && (
                             <div className={`${styles.messageSent} ${styles.message}`}>
                                 <div className={styles.scheduleForm}>
@@ -110,10 +269,7 @@ export default function ChatWindow({ selectedChat }) {
                                             />
                                         </label>
                                     </div>
-                                    <button
-                                        className={styles.sendButton}
-                                        onClick={handleScheduleSubmit}
-                                    >
+                                    <button className={styles.sendButton} onClick={handleScheduleSubmit}>
                                         SEND
                                     </button>
                                 </div>
@@ -121,7 +277,6 @@ export default function ChatWindow({ selectedChat }) {
                             </div>
                         )}
 
-                        {/* Session request confirmation */}
                         {sentRequest && (
                             <div className={`${styles.messageReceived} ${styles.message}`}>
                                 <div className={styles.messageAvatar}></div>
@@ -136,25 +291,32 @@ export default function ChatWindow({ selectedChat }) {
                                         </div>
                                     </div>
                                     <div className={styles.sessionActions}>
-                                        <button
-                                            className={styles.acceptButton}
-                                            onClick={handleAcceptSession}
-                                        >
-                                            Accept
-                                        </button>
-                                        <button
-                                            className={styles.declineButton}
-                                            onClick={handleDeclineSession}
-                                        >
-                                            Decline
-                                        </button>
+                                        <div className={styles.sessionRequest}>
+                                            <button
+                                                className={styles.acceptButton}
+                                                onClick={() => {
+                                                    console.log('✅ Accept button clicked');
+                                                    handleAcceptSession();
+                                                }}
+                                            >
+                                                Accept
+                                            </button>
+                                            <button
+                                                className={styles.declineButton}
+                                                onClick={() => {
+                                                    console.log('❌ Decline button clicked');
+                                                    handleDeclineSession();
+                                                }}
+                                            >
+                                                Decline
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    {/* Message input */}
                     <form className={styles.messageForm} onSubmit={handleSendMessage}>
                         <input
                             type="text"
@@ -162,11 +324,7 @@ export default function ChatWindow({ selectedChat }) {
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Message..."
                         />
-                        <button
-                            type="button"
-                            className={styles.sendIcon}
-                            onClick={handleScheduleClick}
-                        >
+                        <button type="button" className={styles.sendIcon} onClick={handleScheduleClick}>
                             +
                         </button>
                     </form>

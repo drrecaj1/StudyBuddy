@@ -2,7 +2,6 @@ import React from 'react';
 import styles from '../../styles/StudyPartners.module.css';
 
 export default function FilterBar({ filters, setFilters }) {
-    // If you don't need state, you can remove the props
     return (
         <div className={styles.filtersContainer}>
             <div className={styles.filterItem}>

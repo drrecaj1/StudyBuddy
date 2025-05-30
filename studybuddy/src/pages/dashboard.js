@@ -1,4 +1,3 @@
-
 import DashboardStats from "@/components/Dashboard/DashboardStats";
 import StudyBuddySuggestions from "@/components/Dashboard/StudyBuddySuggestions";
 import CurrentCourses from "@/components/Dashboard/CurrentCourses";
@@ -11,9 +10,10 @@ import NavBar from '../components/NavBar';
 
 export default function Dashboard() {
     return (
+        <section  className={styles.dashboard}>
         <div className={styles.dashboardContainer}>
 
-            <NavBar activeLink="Home" /> {/* Use the new shared NavBar */}
+            <NavBar activeLink="Home" /> 
 
             <main className={styles.mainContent}>
                 <DashboardStats />
@@ -27,5 +27,6 @@ export default function Dashboard() {
                 </div>
             </main>
         </div>
+        </section>
     );
 }

@@ -1,4 +1,4 @@
-// src/components/Messages/MessageList.js
+// components/Messages/MessageList.js
 import styles from '@/styles/Messages.module.css';
 
 export default function MessageList({ messages, selectedChat, setSelectedChat }) {
@@ -7,8 +7,8 @@ export default function MessageList({ messages, selectedChat, setSelectedChat })
             {messages.map((message) => (
                 <div
                     key={message.id}
-                    className={`${styles.messagePreview} ${selectedChat === message.id ? styles.selected : ''} ${message.unread ? styles.unread : ''}`}
-                    onClick={() => setSelectedChat(message.id)}
+                    className={`${styles.messagePreview} ${selectedChat?.id === message.id ? styles.selected : ''} ${message.unread ? styles.unread : ''}`}
+                    onClick={() => setSelectedChat({ id: message.id })}
                 >
                     <div className={styles.avatarContainer}>
                         <div className={styles.avatar}></div>
@@ -16,7 +16,12 @@ export default function MessageList({ messages, selectedChat, setSelectedChat })
                     <div className={styles.previewContent}>
                         <div className={styles.previewHeader}>
                             <h3>{message.sender}</h3>
-                            <span className={styles.timestamp}>{message.timestamp}</span>
+                            <span className={styles.timestamp}>
+                {new Date(message.timestamp).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })}
+              </span>
                         </div>
                         <p className={styles.previewText}>{message.message}</p>
                     </div>

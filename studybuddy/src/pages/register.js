@@ -11,9 +11,8 @@ export default function RegisterPage() {
             </Head>
             <main className={styles.registerLayout}>
                 <div className={styles.leftPanel}>
-                    {/* ✅ Replace any existing logo text here */}
                     <Image
-                        src="/Buddy-6.png"
+                        src="/Buddy-7.png"
                         alt="Study Buddy Logo"
                         width={300}
                         height={300}

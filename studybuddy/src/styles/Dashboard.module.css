@@ -1,15 +1,15 @@
 
-
 .dashboardContainer {
     font-family: var(--font-poppins), sans-serif;
-    max-width: 1300px;
+    max-width: 1350px;
     margin: 0 auto;
     color: #333;
-    min-height: 100vh;
+    min-height: 80vh;
     box-sizing: border-box;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
-
-
 
 /* Stats Container */
 .statsContainer {
@@ -27,7 +27,6 @@
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-
 }
 
 .statBox p {
@@ -48,18 +47,20 @@
     margin-bottom: 1.5rem;
 }
 
+/* Study Together Section  */
 .studyTogether {
     flex: 2;
     background: #f5f5f5;
     padding: 1.5rem;
     border-radius: 8px;
+    overflow: visible;
 }
 
 .studyTogether h2 {
     margin-top: 0;
     margin-bottom: 0.25rem;
     font-size: 1.5rem;
-    font-family: Poppins;
+    font-family: var(--font-poppins), sans-serif;
 }
 
 .studyTogether p {
@@ -68,60 +69,92 @@
     color: #555;
 }
 
-/* Buddy cards carousel */
-.buddyCardsContainer {
-    position: relative;
+/* New Carousel Container */
+.carouselContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
-}
-
-.carouselNavigation {
-    position: absolute;
-    top: 0;
-    left: -20px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    z-index: 10;
-}
-
-.rightNav {
-    left: auto;
-    right: -20px;
-}
-
-.navButton {
-    width: 40px;
-    height: 40px;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    /*border-radius: 0%;*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 2rem;
-    line-height: 1;
-    padding-bottom: 5px;
-}
-
-.buddyCards {
-    display: flex;
-    gap: 1rem;
-    position: relative;
     width: 100%;
 }
 
+.carouselContent {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 1rem;
+    min-height: 280px;
+}
+
+/* Buddy Cards */
 .buddyCard {
     background: #666;
     color: white;
     padding: 1.25rem 1rem;
     border-radius: 8px;
     text-align: center;
-    flex: 1;
+    width: 280px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.buddyCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Navigation */
+.carouselNavigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+    margin-top: 1rem;
+}
+
+.navButton {
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.navButton:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+
+.navButton:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.navButton span {
+    line-height: 1;
+}
+
+/* Page Indicator */
+.pageIndicator {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Avatar styling */
 .avatar {
     width: 80px;
     height: 80px;
@@ -133,18 +166,12 @@
     justify-content: center;
     overflow: hidden;
     position: relative;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #666;
 }
 
-/* Add a simple silhouette to the avatar */
-.avatar::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='20' fill='%23bbb'/%3E%3Cpath d='M25,85 Q50,60 75,85' fill='%23bbb'/%3E%3Cellipse cx='50' cy='85' rx='25' ry='10' fill='%23bbb'/%3E%3C/svg%3E");
-    background-size: cover;
-    background-position: center;
-}
+
 
 .buddyCard h3 {
     margin: 0.5rem 0;
@@ -154,7 +181,6 @@
 .buddyCourses {
     font-size: 0.9rem;
     margin: 0.25rem 0;
-    /*color: rgba(255, 255, 255, 0.85);*/
     color: white !important;
 }
 
@@ -173,6 +199,20 @@
     margin-top: 0.75rem;
     font-weight: 500;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.connectBtn:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.noBuddiesMessage {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 2rem;
+    width: 100%;
 }
 
 /* Messages section */
@@ -193,10 +233,12 @@
 .messageItem {
     display: flex;
     gap: 1rem;
-    padding: 1rem;
-    background: #e8e8e8;
-    border-radius: 8px;
+
     align-items: flex-start;
+    margin-bottom: 12px;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #e8e8e8;
 }
 
 .messageIcon {
@@ -295,23 +337,19 @@
     font-size: 0.9rem;
 }
 
-.viewAllBtn:hover{
-
+.viewAllBtn:hover {
+    background: #ccc;
 }
 
 .linkInsideButton {
-    text-decoration: none; /* Remove underline */
-    color: inherit; /* Make it inherit the button's text color */
+    text-decoration: none;
+    color: inherit;
 }
 
-.linkInsideButton:hover{
-    text-decoration: none; /* Remove underline */
-    color: blue /* Make it inherit the button's text color */
+.linkInsideButton:hover {
+    text-decoration: none;
+    color: blue;
 }
-
-
-
-
 
 /* Sessions section */
 .sessions {
@@ -347,6 +385,10 @@
     font-size: 0.9rem;
 }
 
+.scheduleBtn:hover {
+    background: #ccc;
+}
+
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
     .studySection, .bottomSection {
@@ -357,8 +399,37 @@
         width: 100%;
     }
 
-    .buddyCards {
+    .carouselContent {
         flex-direction: column;
+        align-items: center;
+        max-width: 320px;
+        gap: 1rem;
+    }
+
+    .buddyCard {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .carouselNavigation {
+        display: none;
     }
 }
 
+@media (max-width: 640px) {
+    .carouselContent {
+        gap: 1rem;
+    }
+
+    .studyTogether {
+        padding: 1rem;
+    }
+
+    .statsContainer {
+        flex-direction: column;
+    }
+
+    .dashboardContainer {
+        padding: 1rem;
+    }
+}

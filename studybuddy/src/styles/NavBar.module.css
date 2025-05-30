@@ -1,29 +1,29 @@
 .header {
     padding: 1rem 0;
-    /*background-color: #f5f5f5;*/
+
 }
 
 .navLink {
-    text-decoration: none;      /* Removes underline */
-    color: #000000;             /* Your preferred purple or other brand color */
-    font-weight: normal;        /* Normal font unless active */
+    text-decoration: none;
+    color: #000000;
+    font-weight: normal;
     padding: 0.5rem 1rem;
     transition: all 0.2s ease-in-out;
 }
 
 .navLink:hover {
-    color: #5B0EAE;             /* Lighter purple on hover (optional) */
+    color: #5B0EAE;
 }
 
 .activeLink {
     font-weight: bold;
-    border-bottom: 3px solid black; /* That custom underline for active page */
+    border-bottom: 3px solid black;
 }
 
 .nav {
     display: flex;
     flex: 1;
-    justify-content: center; /* centers the <ul> horizontally */
+    justify-content: center;
 }
 
 .nav ul {
@@ -43,7 +43,7 @@
 
 .nav li a {
     text-decoration: none;
-    color: #000000; /* Your custom purple */
+    color: #000000;
     font-weight: 500;
     transition: color 0.2s ease-in-out, border-bottom 0.2s;
     border-bottom: 2px solid transparent;

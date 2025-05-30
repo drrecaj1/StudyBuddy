@@ -1,52 +1,45 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import MessageList from '@/components/Messages/MessageList';
 import ChatWindow from '@/components/Messages/ChatWindows';
 import styles from '@/styles/Messages.module.css';
-import Link from 'next/link';
 import NavBar from '../components/NavBar';
 
 export default function MessagesPage() {
-    const [selectedChat, setSelectedChat] = useState(null);
+    const router = useRouter();
+    const { partnerId } = router.query;
 
-    // Sample data for message previews
-    const messages = [
-        {
-            id: 1,
-            sender: 'Study Buddy',
-            message: 'Welcome to study buddy! Enjoy being a study buddy and helping peers out!',
-            timestamp: '10:34',
-            unread: true
-        },
-        {
-            id: 2,
-            sender: 'Study Buddy',
-            message: 'Welcome to study buddy! Enjoy being a study buddy and helping peers out!',
-            timestamp: '10:34',
-            unread: false
-        },
-        {
-            id: 3,
-            sender: 'Study Buddy',
-            message: 'Welcome to study buddy! Enjoy being a study buddy and helping peers out!',
-            timestamp: '10:34',
-            unread: false
-        },
-        {
-            id: 4,
-            sender: 'Study Buddy',
-            message: 'Welcome to study buddy! Enjoy being a study buddy and helping peers out!',
-            timestamp: '10:34',
-            unread: false
-        },
-        {
-            id: 5,
-            sender: 'Study Buddy',
-            message: 'Welcome to study buddy! Enjoy being a study buddy and helping peers out!',
-            timestamp: '10:34',
-            unread: false
-        },
-    ];
+    const [selectedChat, setSelectedChat] = useState(null);
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        if (partnerId) {
+            setSelectedChat({ id: partnerId });
+        }
+    }, [partnerId]);
+
+    // Fetch list of chat previews
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        async function fetchChatList() {
+            try {
+                const res = await fetch('/api/messages/history', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                const data = await res.json();
+                setMessages(data.chats || []);
+            } catch (err) {
+                console.error('❌ Error fetching chat list:', err);
+            }
+        }
+
+        fetchChatList();
+    }, []);
 
     return (
         <>
@@ -54,9 +47,7 @@ export default function MessagesPage() {
                 <title>My Messages – Study Buddy</title>
             </Head>
             <div className={styles.messagesContainer}>
-
-                    <NavBar activeLink="My Messages" /> {/* Use shared nav here */}
-
+                <NavBar activeLink="My Messages" />
                 <main className={styles.mainContent}>
                     <div className={styles.messagesWrapper}>
                         <MessageList

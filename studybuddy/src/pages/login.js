@@ -14,7 +14,7 @@ export default function LoginPage() {
                 {/* Left side with logo */}
                 <div className={styles.leftPanel}>
                     <Image
-                        src="/Buddy-6.png"
+                        src="/Buddy-7.png"
                         alt="Study Buddy Logo"
                         width={300}
                         height={300}

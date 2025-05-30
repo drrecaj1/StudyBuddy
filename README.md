@@ -201,6 +201,7 @@ This project uses environment variables to manage sensitive information like dat
 Once you have set up your database and environment variables, you can run the Next.js development server:
 
 ```bash
+cd studybuddy
 npm run dev
 # OR
 yarn dev
